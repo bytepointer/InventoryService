@@ -1,4 +1,22 @@
-local InventoryService = {}
+export type ItemType = {
+	id: number,
+	slot: number,
+	amount: number,
+}
+
+export type InventoryServiceType = {
+	_emitInventoryChange: (player: Player, item: ItemType, slot: number) -> (),
+	SaveData: (player: Player) -> (),
+	getInventory: (player: Player) -> (),
+	hasItem: (player: Player, item: ItemType) -> (),
+	AddItem: (player: Player, item: ItemType, mode: string) -> (),
+	ChangeInventory: (player: Player, sourceSlot: number, targetSlot: number) -> (),
+	RemoveItem: (player: Player, item: ItemType) -> (),
+	SplitItem: (player: Player, item: ItemType) -> (),
+	DropItem: (player: Player, slot: number) -> ()
+}
+
+local InventoryService: InventoryServiceType = {}
 
 local errors = require(script.Constants.errors)
 local config = require(script.Constants.config)
@@ -25,14 +43,14 @@ local onInventoryChange = ReplicatedStorage.Inventory.Events.inventoryEvent or f
 local EMPTY_ITEM_ID = 1
 
 -- INTERNALS
-function InventoryService._emitInventoryChange(player, item, slot)
+function InventoryService._emitInventoryChange(player: Player, item: ItemType, slot: number)
 
 	return onInventoryChange:FireClient(player, item, slot);
 end
 
 -- EXTERNALS
 
-function InventoryService:SaveData(player)
+function InventoryService:SaveData(player: Player)
 	
 	local writeSuccess, inventory = db:save(player.UserId)
 	
@@ -48,7 +66,7 @@ function InventoryService:SaveData(player)
 	}
 end
 
-function InventoryService.getInventory(player)
+function InventoryService.getInventory(player: Player)
 	
 	if inventoryCache[player.UserId] then
 		return {
@@ -95,7 +113,7 @@ function InventoryService.getInventory(player)
 	end
 end
 
-function InventoryService.hasItem(player, item)
+function InventoryService.hasItem(player: Player, item: ItemType)
 	
 	local inventoryResult = InventoryService.getInventory(player)
 	
@@ -122,7 +140,7 @@ function InventoryService.hasItem(player, item)
 	}
 end
 
-function InventoryService:changeInventory(player, sourceSlot, targetSlot)
+function InventoryService:ChangeInventory(player: Player, sourceSlot: number, targetSlot: number)
 
 	local inventoryResult = InventoryService.getInventory(player)
 
@@ -154,7 +172,7 @@ end
 -- MODULE
 
 
-function InventoryService:addItem(player, item, mode)
+function InventoryService:AddItem(player: Player, item: ItemType, mode: string)
 	
 	mode = mode or "merge"
 	
@@ -224,7 +242,7 @@ function InventoryService:addItem(player, item, mode)
 	}
 end
 
-function InventoryService:RemoveItem(player, item)
+function InventoryService:RemoveItem(player: Player, item: ItemType)
 	
 	local slot
 	
@@ -290,7 +308,7 @@ function InventoryService:RemoveItem(player, item)
 	}
 end
 
-function InventoryService:SplitItem(player, item)
+function InventoryService:SplitItem(player: Player, item: ItemType)
 	
 	if not item then 
 		return errors["INVALID_ITEM"]
@@ -328,7 +346,7 @@ function InventoryService:SplitItem(player, item)
 		return errors["API_ERR"]
 	end
 	
-	local addReply = InventoryService:addItem(player, slotItem, "split")
+	local addReply = InventoryService:AddItem(player, slotItem, "split")
 
 	if addReply.status ~= "success" then
 		return errors["API_ERR"]
@@ -340,7 +358,7 @@ function InventoryService:SplitItem(player, item)
 	}
 end
 
-function InventoryService:DropItem(player, slot)
+function InventoryService:DropItem(player: Player, slot: ItemType)
 	
 	local inventoryResult = InventoryService.getInventory(player)
 	
