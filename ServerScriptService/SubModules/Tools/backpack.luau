@@ -1,10 +1,16 @@
 local errors = require(script.Parent.Parent.Constants.errors)
 
+export type BackpackManagerType = {
+	removeBackpackItem: (player: Player, itemName: string) -> boolean,
+	addBackpackItem: (player: Player, itemName: string) -> boolean,
+	dropMaterialOnGround: (player: Player, item: Object) -> boolean
+}
+
+local backpackManager: BackpackManagerType = {}
+
 local ServerStorage = game:GetService("ServerStorage")
 
 local itemPrompt = ServerStorage.Items.Materials:WaitForChild("ItemPrompt")
-	
-local backpackManager = {}
 
 function backpackManager:removeBackpackItem(player, itemName)
 
@@ -24,6 +30,8 @@ function backpackManager:addBackpackItem(player, itemName)
 
 	local backpack = player:WaitForChild("Backpack")
 	local tool = ServerStorage.Items.Tools:FindFirstChild(itemName)
+
+	--local item = backpack:FindFirstChild(itemName)
 
 	if tool then
 
