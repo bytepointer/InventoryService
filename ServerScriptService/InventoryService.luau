@@ -109,8 +109,6 @@ function InventoryService.hasItem(player, item)
 	
 	local selectedItem = inventory.items[itemSlot]
 	
-	print(selectedItem)
-	
 	if not itemSlot or selectedItem.amount < item.amount then
 		return {
 			has = false,
@@ -134,11 +132,8 @@ function InventoryService:changeInventory(player, sourceSlot, targetSlot)
 
 	local inventory = inventoryResult.inventory
 
-	print(inventory)
 	local changedSlots = itemManager:changeSlot(inventory, sourceSlot, targetSlot)
 
-	print("UEE")
-	print(changedSlots)
 	local writeSuccess = db:write(player.UserId, changedSlots.inventory)
 
 	if not writeSuccess then
@@ -233,7 +228,6 @@ function InventoryService:RemoveItem(player, item)
 	
 	local slot
 	
-	print(item)
 	if not item then
 		return errors["INVALID_ITEM"] 
 	end
@@ -269,10 +263,7 @@ function InventoryService:RemoveItem(player, item)
 		return errors["INVALID_ITEM"]
 	end
 	
-	print(selectedItem)
-	
 	if selectedItem.stacked and not item.amount then
-		print("UE")
 		item.amount = selectedItem.amount
 	end
 
@@ -280,7 +271,6 @@ function InventoryService:RemoveItem(player, item)
 		inventory.items[slot] = itemManager.getItemById(EMPTY_ITEM_ID)
 		inventory.amount -= 1
 	elseif selectedItem.stacked then
-		print("function")
 		inventory.items[slot].amount -= item.amount
 	end
 	
