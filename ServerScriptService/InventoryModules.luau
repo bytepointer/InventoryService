@@ -14,7 +14,7 @@ local dropItem = ReplicatedStorage.Inventory.dropItem or false
 getInventory.OnServerInvoke = function(player)
 	
 	-- GIVE DIAMODN TO PLAYER -- TEST ONLY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	--[[InventoryService:addItem(player, {
+	--[[InventoryService:AddItem(player, {
 		id = 4,
 		amount = 10
 	})--]]
@@ -24,7 +24,7 @@ end
 
 changeInventory.OnServerEvent:Connect(function(player, sourceSlot, targetSlot)
 	
-	InventoryService:changeInventory(player, sourceSlot, targetSlot)
+	InventoryService:ChangeInventory(player, sourceSlot, targetSlot)
 end)
 
 splitItem.onServerEvent:Connect(function(player, item)
