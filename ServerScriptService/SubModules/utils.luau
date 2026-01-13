@@ -1,6 +1,12 @@
 local errors = require(script.Parent.Constants.errors)
 
-local utils = {}
+export type UtilsType = {
+	mergeObjects: (object: Object, target: Object) -> Object,
+	fillTable: (amount: number, value: any) -> Object,
+	copy: (target: Object) -> Object
+}
+
+local utils: UtilsType = {}
 
 function utils:mergeObjects(object, target)
 
