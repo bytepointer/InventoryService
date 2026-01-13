@@ -4,7 +4,15 @@ local utils = require(script.Parent.Parent.utils)
 
 local EMPTY_ITEM_ID = 1
 
-local itemManager = {}
+export type ItemManagerType = {
+	isEmpty: (itemIdentificator: number) -> boolean,
+	getItemById: (itemIdentificator: number) -> Object,
+	getSlotById: (items: Object, id: number) -> number?,
+	findSlot: (inventory: Object, newItem: Object, mode: string) -> number?,
+	changeSlot: (inventoryData: Object, sourceSlot: number, targetSlot: number) -> Object,
+}
+
+local itemManager: ItemManagerType = {}
 
 function itemManager.isEmpty(itemIdentificator)
 	
