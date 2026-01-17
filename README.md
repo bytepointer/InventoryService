@@ -7,16 +7,28 @@
 
 You can download the rbxl file to test the service.
 
+## FEATURES
+
+- Get Inventory;
+- Has Item;
+- Add Item;
+- Remove Item;
+- Change Item Position;
+- Drop Item;
+- Split Item
+
 ## Methods
 
 ### Get Inventory
+
+Used to get the inventory in database.
 
 ```
 InventoryService.getInventory(player)
 ```
 - player = Player Instance
 
-### Has Item By Id
+### Has Item
 
 ```
 local item = {
@@ -31,6 +43,8 @@ InventoryService.hasItem(player, item)
 
 ### Add Item
 
+Add item to a player's inventory.
+
 ```
 local item = {
    id = 4,
@@ -43,6 +57,8 @@ InventoryService:AddItem(player, item)
 - player = Player Instance
 
 ### Remove Inventory Item By Slot
+
+Remove a player's item using slot and amount.
 
 ```
 local item = {
@@ -58,6 +74,8 @@ InventoryService:RemoveItem(player, item)
 
 ### Remove Inventory Item By Id
 
+Remove a player's item using item ID and amount.
+
 ```
 local item = {
     id: 4,
@@ -71,6 +89,8 @@ InventoryService:RemoveItem(player, item)
 
 ### Change Item Position in Inventory
 
+Change a item's slot.
+
 ```
 local sourceSlot = 1 -- origin slot that will be moved
 
@@ -83,6 +103,8 @@ InventoryService:ChangeInventory(player, sourceSlot, targetSlot)
 
 ### Drop Item On The Ground
 
+Drop a item on the ground using slot number.
+
 ```
 local itemSlot = 4
 
@@ -93,20 +115,26 @@ InventoryService:Drop(player, itemSlot)
 
 ### Split Item
 
+Split items using their slot and new amount.
+
 ```
 local item = {
-    id: 4,
+    slot: 4,
     amount: 2
 }
 
-InventoryService:RemoveItem(player, item) -- splits 2 items
+InventoryService:Split(player, item) -- splits 2 items
 ```
 
 - player = Player Instance
 
 ## Save Data
 
+Save cache data to the database.
+
 ```
+
+game.Players.
 Inventory:SaveData(player)
 ```
 
